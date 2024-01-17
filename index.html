@@ -9,7 +9,6 @@
     const urlParams = new URLSearchParams(window.location.search);
     authCode = urlParams.has('code') ? urlParams.get('code') : '';
     console.log('URLauthcode: ' + authCode);
-    sessionStorage.setItem('authcode', authCode);
 
     // Retrieve State set earlier and use it to redirect back to previous page.
     var sState = '';
@@ -24,6 +23,8 @@
             } catch (error) {
                 console.error("Error parsing sessionStorage:", error);
             }
+    
+    sessionStorage.setItem(sState, authCode);
     
     window.location.replace(sState);
     }
