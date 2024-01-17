@@ -5,6 +5,11 @@
 <p>This is for Okta redirect purpose</p>
 </body>   
 <script>
+    console.log('windowURLfromplain: ' + window.location.href);
+    const urlParams = new URLSearchParams(window.location.search);
+    authCode1 = urlParams.has('code') ? urlParams.get('code') : '';
+    console.log('authcodefromplain: ' + authCode1);
+    sessionStorage.setItem('authcode', authCode1);
     window.location.href = "https://rekojen.github.io/jplab";
 </script>
 </html>
