@@ -5,11 +5,27 @@
 <p>This is for Okta redirect purpose</p>
 </body>   
 <script>
-    console.log('windowURLfromplain: ' + window.location.href);
+    //this is to retrieve authentication code from URL and store in sessionStorage.
     const urlParams = new URLSearchParams(window.location.search);
-    authCode1 = urlParams.has('code') ? urlParams.get('code') : '';
-    console.log('authcodefromplain: ' + authCode1);
-    sessionStorage.setItem('authcode', authCode1);
-    window.location.href = "https://rekojen.github.io/jplab";
+    authCode = urlParams.has('code') ? urlParams.get('code') : '';
+    console.log('URLauthcode: ' + authCode);
+    sessionStorage.setItem('authcode', authCode);
+
+    // Retrieve State set earlier and use it to redirect back to previous page.
+    var sState = '';
+    let sOktaTransactionStorage = window.sessionStorage.getItem("okta-transaction-storage");
+    if (sOktaTransactionStorage) {
+         try {
+            const oStorage = JSON.parse(sOktaTransactionStorage);
+            if (oStorage && oStorage.state) {
+                sState = oStorage.state || '';
+                console.log('State: ' + sState);
+            }
+            } catch (error) {
+                console.error("Error parsing sessionStorage:", error);
+            }
+    
+    window.location.replace(sState);
+        
 </script>
 </html>
