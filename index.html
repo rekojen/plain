@@ -4,4 +4,29 @@
 <h1>Hello World</h1>
 <p>This is for Okta redirect purpose</p>
 </body>   
+<script>
+    //this is to retrieve authentication code from URL and store in sessionStorage.
+    const urlParams = new URLSearchParams(window.location.search);
+    authCode = urlParams.has('code') ? urlParams.get('code') : '';
+    console.log('URLauthcode: ' + authCode);
+
+    // Retrieve State set earlier and use it to redirect back to previous page.
+    var sState = '';
+    let sOktaTransactionStorage = window.sessionStorage.getItem("okta-transaction-storage");
+    if (sOktaTransactionStorage) {
+         try {
+            const oStorage = JSON.parse(sOktaTransactionStorage);
+            if (oStorage && oStorage.state) {
+                sState = oStorage.state || '';
+                console.log('State: ' + sState);
+            }
+            } catch (error) {
+                console.error("Error parsing sessionStorage:", error);
+            }
+    
+    sessionStorage.setItem(sState, authCode);
+    
+    window.location.replace(sState);
+    }
+</script>
 </html>
